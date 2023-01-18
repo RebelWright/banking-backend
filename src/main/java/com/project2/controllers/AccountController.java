@@ -10,7 +10,7 @@ import java.util.Optional;
 
 @RestController
 @CrossOrigin
-@RequestMapping(value="/accounts")
+@RequestMapping(value="accounts")
 public class AccountController {
     private final AccountDAO accountDAO;
 
@@ -19,13 +19,16 @@ public class AccountController {
         this.accountDAO = accountDAO;
     }
 
-    @GetMapping(value="/{userId}")
-    public ResponseEntity<List<Account>> getAllAccountsByUserId(@PathVariable int userId)
-    {
+    @GetMapping(value = "/")
+    public ResponseEntity<List<Account>> getAllAccounts() {
+        return ResponseEntity.ok(accountDAO.findAll());
+    }
+
+    @GetMapping(value = "/{userId}")
+    public ResponseEntity<List<Account>> getAllAccountsByUserId(@PathVariable int userId) {
         Optional<List<Account>> accountsOptional = accountDAO.findByUser(userId);
 
-        if (accountsOptional.isPresent())
-        {
+        if (accountsOptional.isPresent()) {
             List<Account> extractedAccounts = accountsOptional.get();
 
             return ResponseEntity.ok(extractedAccounts); //200
@@ -34,22 +37,40 @@ public class AccountController {
         return ResponseEntity.badRequest().build();
     }
 
-    @GetMapping(value="/{accountId}")
-    public ResponseEntity<Account> getAccountById(@PathVariable int accountId){
+    @GetMapping(value = "/{accountId}")
+    public ResponseEntity<Account> getAccountById(@PathVariable int accountId) {
         Optional<Account> accountOptional = accountDAO.findByAccountId(accountId);
-        if(accountOptional.isPresent()){
+        if (accountOptional.isPresent()) {
             Account extractedAccount = accountOptional.get();
             return ResponseEntity.ok(extractedAccount);
         }
         return ResponseEntity.badRequest().build();
     }
 
-    @PostMapping
-    public ResponseEntity<Account> createAccount(@RequestBody Account account){
+    @PostMapping(value = "/create")
+    public ResponseEntity<Account> createAccount(@RequestBody Account account) {
         Account newAccount = accountDAO.save(account);
-        if(newAccount == null){
+        if (newAccount == null) {
             return ResponseEntity.badRequest().build();
         }
         return ResponseEntity.accepted().body(newAccount);
     }
+
+//
+//    @PutMapping(value = "/edit/{accountId}")
+//    public ResponseEntity<Account> updateAccountById(@RequestBody Account account, @PathVariable int accountId) {
+//        return ResponseEntity.badRequest().build();
+//    }
+
+
+    @DeleteMapping(value="/delete/{accountId}")
+    public ResponseEntity<String> deleteAccountById(@PathVariable int accountId){
+        if (accountDAO.findByAccountId(accountId).isPresent()){
+            accountDAO.deleteById(accountId);
+            return ResponseEntity.ok("Successful Deletion"); //200
+        }
+        return ResponseEntity.badRequest().build(); //400
+    }
+
 }
+

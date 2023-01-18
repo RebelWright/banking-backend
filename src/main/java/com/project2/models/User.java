@@ -21,14 +21,14 @@ public class User {
     @Column(nullable = false)
     private String lastName;
     @Column(unique = true, nullable = false)
-    private Integer phoneNumber;
+    private String phoneNumber;
     @Column(nullable = false)
     private String address;
 
     public User() {
     }
 
-    public User(int userId, String email, String password, String firstName, String lastName, Integer phoneNumber, String address) {
+    public User(int userId, String email, String password, String firstName, String lastName, String phoneNumber, String address) {
         this.userId = userId;
         this.email = email;
         this.password = password;
@@ -38,7 +38,7 @@ public class User {
         this.address = address;
     }
 
-    public User(String email, String password, String firstName, String lastName, Integer phoneNumber, String address) {
+    public User(String email, String password, String firstName, String lastName, String phoneNumber, String address) {
         this.email = email;
         this.password = password;
         this.firstName = firstName;
@@ -87,11 +87,11 @@ public class User {
         this.lastName = lastName;
     }
 
-    public Integer getPhoneNumber() {
+    public String getPhoneNumber() {
         return phoneNumber;
     }
 
-    public void setPhoneNumber(Integer phoneNumber) {
+    public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
 
