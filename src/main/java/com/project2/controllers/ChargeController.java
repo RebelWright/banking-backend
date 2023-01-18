@@ -1,5 +1,6 @@
 package com.project2.controllers;
 
+import com.project2.daos.AccountDAO;
 import com.project2.daos.ChargeDAO;
 import com.project2.models.Account;
 import com.project2.models.Charge;
@@ -14,10 +15,13 @@ import java.util.Optional;
 @RequestMapping(value="charges")
 public class ChargeController {
     private final ChargeDAO chargeDAO;
+    private final AccountDAO accountDAO;
+
 
     @Autowired
-    public ChargeController(ChargeDAO chargeDAO) {
+    public ChargeController(ChargeDAO chargeDAO, AccountDAO accountDAO) {
         this.chargeDAO = chargeDAO;
+        this.accountDAO = accountDAO;
     }
 
     @GetMapping(value="/")
@@ -45,15 +49,34 @@ public class ChargeController {
         return ResponseEntity.badRequest().build();
     }
 
-    @PostMapping(value="/create")
-    public ResponseEntity<Charge> createNewCharge(@RequestBody Charge charge){
-        chargeDAO.save(charge);
-        if (charge == null) {
+    @PostMapping(value="/create/{accountId}")
+    public ResponseEntity<Charge> createNewCharge(@RequestBody Charge charge, @PathVariable int accountId){
+        Optional<Account> accountOptional = accountDAO.findByAccountId(accountId);
+        System.out.println(accountId);
+        charge.setAccount(accountOptional.get());
+        System.out.println(accountOptional.toString());
+
+        Charge newCharge = chargeDAO.save(charge);
+        System.out.println(newCharge.toString());
+        if (newCharge == null) {
             return ResponseEntity.badRequest().build();
         }
-        return ResponseEntity.ok().body(charge);
+        return ResponseEntity.accepted().body(newCharge);
 
     }
+
+    @PutMapping(value="/update/{chargeId}")
+    public ResponseEntity<Charge> updateChargeById(@RequestBody Charge charge, @PathVariable int chargeId){
+        Optional<Charge> editedCharge = chargeDAO.findByChargeId(chargeId);
+        Charge extractedCharge = editedCharge.get();
+
+        if(charge.getChargeId() < 1){
+            return ResponseEntity.badRequest().build(); //400
+        } else {
+            return ResponseEntity.accepted().body(chargeDAO.save(extractedCharge)); //202
+        }
+    }
+
 
     @DeleteMapping(value="/delete/{chargeId}")
     public ResponseEntity<String> deleteChargeById(@PathVariable int chargeId){

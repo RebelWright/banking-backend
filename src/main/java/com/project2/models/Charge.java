@@ -28,7 +28,7 @@ public class Charge {
     public Charge() {
     }
 
-    public Charge(int chargeId, Account account, int chargeAmount, String chargeName, String date) {
+    public Charge(int chargeId, Account account, int chargeAmount, String chargeName, String chargeType, String date) {
         this.chargeId = chargeId;
         this.account = account;
         this.chargeAmount = chargeAmount;
@@ -36,7 +36,7 @@ public class Charge {
         this.date = date;
     }
 
-    public Charge(Account account, int chargeAmount, String chargeName, String date) {
+    public Charge(Account account, int chargeAmount, String chargeName, String chargeType, String date) {
         this.account = account;
         this.chargeAmount = chargeAmount;
         this.chargeName = chargeName;
