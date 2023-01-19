@@ -67,7 +67,6 @@ public class AccountController {
 
     @PutMapping(value = "/update/{accountId}")
     public ResponseEntity<Account> updateAccountById(@RequestBody Account account, @PathVariable int accountId) {
-
         return ResponseEntity.badRequest().build(); //400
     }
 
