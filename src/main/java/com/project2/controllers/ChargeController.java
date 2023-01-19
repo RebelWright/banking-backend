@@ -7,6 +7,8 @@ import com.project2.models.Charge;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -41,11 +43,19 @@ public class ChargeController {
 
     @GetMapping(value="/account/{accountId}")
     public ResponseEntity<List<Charge>> getAllChargesByAccountId(@PathVariable int accountId){
-        Optional<List<Charge>> chargeOptional = chargeDAO.findByAccount(accountId);
-        if (chargeOptional.isPresent()){
+        Account account = accountDAO.findByAccountId(accountId).get();
+
+        if(account == null){
+            return ResponseEntity.badRequest().build();
+        }
+
+        Optional<List<Charge>> chargeOptional = chargeDAO.findByAccount(account);
+
+        if(chargeOptional.isPresent()){
             List<Charge> extractedCharges = chargeOptional.get();
             return ResponseEntity.ok(extractedCharges);
         }
+
         return ResponseEntity.badRequest().build();
     }
 
