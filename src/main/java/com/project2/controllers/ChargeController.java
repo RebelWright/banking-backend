@@ -69,6 +69,7 @@ public class ChargeController {
     public ResponseEntity<Charge> updateChargeById(@RequestBody Charge charge, @PathVariable int chargeId){
         Optional<Charge> editedCharge = chargeDAO.findByChargeId(chargeId);
         Charge extractedCharge = editedCharge.get();
+        extractedCharge = charge;
 
         if(charge.getChargeId() < 1){
             return ResponseEntity.badRequest().build(); //400

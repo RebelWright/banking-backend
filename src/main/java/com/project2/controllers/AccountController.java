@@ -3,6 +3,7 @@ package com.project2.controllers;
 import com.project2.daos.AccountDAO;
 import com.project2.daos.UserDAO;
 import com.project2.models.Account;
+import com.project2.models.Charge;
 import com.project2.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -67,7 +68,15 @@ public class AccountController {
 
     @PutMapping(value = "/update/{accountId}")
     public ResponseEntity<Account> updateAccountById(@RequestBody Account account, @PathVariable int accountId) {
-        return ResponseEntity.badRequest().build(); //400
+        Optional<Account> editedAccount = accountDAO.findByAccountId(accountId);
+        Account extractedAccount = editedAccount.get();
+        extractedAccount = account;
+        if(account.getAccountId() < 1){
+            return ResponseEntity.badRequest().build(); //400
+        } else {
+            extractedAccount.getUser();
+            return ResponseEntity.accepted().body(accountDAO.save(extractedAccount)); //202
+        }
     }
 
 
