@@ -6,6 +6,7 @@ import com.project2.daos.UserDAO;
 import com.project2.models.User;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;

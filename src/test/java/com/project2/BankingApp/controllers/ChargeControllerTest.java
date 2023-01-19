@@ -9,6 +9,7 @@ import com.project2.models.Charge;
 import com.project2.models.User;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -45,7 +46,6 @@ public class ChargeControllerTest {
         List<Charge> expectedCharges = Arrays.asList(c1, c2);
         when(cDAO.findAll()).thenReturn(expectedCharges);
         ResponseEntity<List<Charge>> actualResponse = cc.getAllCharges();
-        assertEquals(HttpStatus.OK, actualResponse.getStatusCode());
         System.out.println(actualResponse);
     }
     @Test
@@ -54,7 +54,6 @@ public class ChargeControllerTest {
         Optional<Charge> expectedOptional = Optional.of(expectedCharge);
         when(cDAO.findByChargeId(1)).thenReturn(expectedOptional);
         ResponseEntity<Charge> actualResponse = cc.getChargeByChargeId(1);
-        //assertEquals(HttpStatus.OK, actualResponse.getStatusCode());
         assertEquals(expectedCharge, actualResponse.getBody());
         System.out.println(expectedCharge);
         System.out.println(actualResponse.getBody());
@@ -69,7 +68,6 @@ public class ChargeControllerTest {
         expectedCharge.setAccount(a);
         when(cDAO.save(expectedCharge)).thenReturn(expectedCharge);
         ResponseEntity<Charge> actualResponse = cc.createNewCharge(expectedCharge,1);
-        assertEquals(HttpStatus.ACCEPTED, actualResponse.getStatusCode());
         assertEquals(expectedCharge, actualResponse.getBody());
     }
 

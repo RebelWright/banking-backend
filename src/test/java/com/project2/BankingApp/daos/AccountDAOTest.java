@@ -16,13 +16,15 @@ import com.project2.models.Account;
 import com.project2.models.User;
 
 class AccountDAOTest {
+    //instantiate a AccountDAO to use
     @Mock
     private AccountDAO accountDAO;
-
+    //create dummy models
     private User u = new User(1,"test@gmail.com","password","John","Doe","1234567","Abc 123 St.");
     private Account a1 = new Account(1, u,"testing","testing", 1000.0);
     private Account a2 = new Account(2, u, "testing2","testing2", 2000.0);
 
+    //let's us use mockito annotations in our tests
     @BeforeEach
     void setUp() {
         MockitoAnnotations.initMocks(this);
@@ -31,7 +33,6 @@ class AccountDAOTest {
     @Test
     void testFindByUser() {
         when(accountDAO.findByUser(u)).thenReturn(Optional.of(Arrays.asList(a1, a2)));
-
         Optional<List<Account>> result = accountDAO.findByUser(u);
         assertEquals(2, result.get().size());
         assertEquals(a1, result.get().get(0));

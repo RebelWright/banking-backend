@@ -30,6 +30,8 @@ class UserDAOTest {
 
         Optional<User> result = userDAO.findByUserId(1);
         assertEquals(u, result.get());
+        System.out.println(u);
+        System.out.println(result.get());
     }
 
     @Test
@@ -38,5 +40,7 @@ class UserDAOTest {
 
         Optional<User> result = userDAO.findByEmailAndPassword("johndoe@email.com","password");
         assertEquals(u, result.get());
+        System.out.println(u);
+        System.out.println(result.get());
     }
 }
