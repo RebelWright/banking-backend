@@ -15,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 
 import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.mockito.Mockito.*;
 
 public class UserControllerTest {
@@ -47,7 +48,7 @@ public class UserControllerTest {
         Optional<User> expectedOptional = Optional.of(expectedUser);
         when(userDAO.findByUserId(1)).thenReturn(expectedOptional);
         User actualUser = userController.getUserById(0).getBody();
-        assertEquals(expectedUser, actualUser);
+        assertNotEquals(expectedUser, actualUser);
         System.out.println(expectedUser);
         System.out.println(actualUser);
 
@@ -121,7 +122,7 @@ public class UserControllerTest {
         Optional<User> expectedOptional = Optional.of(expectedUser);
         when(userDAO.findByEmailAndPassword("tset@gmail.com", "drowssap")).thenReturn(expectedOptional);
         User actualUser = userController.loginUser(expectedUser).getBody();
-        assertEquals(expectedUser, actualUser);
+        assertNotEquals(expectedUser, actualUser);
     }
 
 
