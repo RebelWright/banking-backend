@@ -65,10 +65,8 @@ public class ChargeController {
     public ResponseEntity<Charge> updateChargeById(@RequestBody Charge charge, @PathVariable int chargeId){
         Optional<Charge> editedCharge = chargeDAO.findByChargeId(chargeId);
         Charge extractedCharge = editedCharge.get();
-        System.out.println(extractedCharge);
 
         Account a = extractedCharge.getAccount();
-        System.out.println(a);
 
         extractedCharge = charge;
         extractedCharge.setAccount(a);
