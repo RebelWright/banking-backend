@@ -52,12 +52,8 @@ public class ChargeController {
     @PostMapping(value="/create/{accountId}")
     public ResponseEntity<Charge> createNewCharge(@RequestBody Charge charge, @PathVariable int accountId){
         Optional<Account> accountOptional = accountDAO.findByAccountId(accountId);
-        System.out.println(accountId);
         charge.setAccount(accountOptional.get());
-        System.out.println(accountOptional.toString());
-
         Charge newCharge = chargeDAO.save(charge);
-        System.out.println(newCharge.toString());
         if (newCharge == null) {
             return ResponseEntity.badRequest().build();
         }
@@ -69,12 +65,18 @@ public class ChargeController {
     public ResponseEntity<Charge> updateChargeById(@RequestBody Charge charge, @PathVariable int chargeId){
         Optional<Charge> editedCharge = chargeDAO.findByChargeId(chargeId);
         Charge extractedCharge = editedCharge.get();
+        System.out.println(extractedCharge);
+
+        Account a = extractedCharge.getAccount();
+        System.out.println(a);
+
         extractedCharge = charge;
+        extractedCharge.setAccount(a);
 
         if(charge.getChargeId() < 1){
             return ResponseEntity.badRequest().build(); //400
         } else {
-            extractedCharge.getAccount();
+            charge.setAccount(extractedCharge.getAccount());
             return ResponseEntity.accepted().body(chargeDAO.save(extractedCharge)); //202
         }
     }

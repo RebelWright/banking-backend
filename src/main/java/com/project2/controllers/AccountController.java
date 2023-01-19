@@ -70,11 +70,13 @@ public class AccountController {
     public ResponseEntity<Account> updateAccountById(@RequestBody Account account, @PathVariable int accountId) {
         Optional<Account> editedAccount = accountDAO.findByAccountId(accountId);
         Account extractedAccount = editedAccount.get();
+        User u = extractedAccount.getUser();
         extractedAccount = account;
+        extractedAccount.setUser(u);
         if(account.getAccountId() < 1){
             return ResponseEntity.badRequest().build(); //400
         } else {
-            extractedAccount.getUser();
+            extractedAccount.setUser(extractedAccount.getUser());
             return ResponseEntity.accepted().body(accountDAO.save(extractedAccount)); //202
         }
     }

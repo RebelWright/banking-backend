@@ -90,13 +90,12 @@ public class UserController {
         Optional<User> editedUser = uDAO.findByUserId(user.getUserId());
 
         User extractedUser =  editedUser.get();
+        extractedUser = user;
 
         if (user.getUserId() < 1) {
             return ResponseEntity.badRequest().build(); //400
-        }else{
-
-            return ResponseEntity.accepted().body(uDAO.save(extractedUser)); //202
         }
+        return ResponseEntity.accepted().body(uDAO.save(extractedUser)); //202
     }
 
     @PutMapping(value="/password/{userId}")
