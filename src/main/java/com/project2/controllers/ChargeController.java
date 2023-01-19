@@ -73,10 +73,10 @@ public class ChargeController {
         if(charge.getChargeId() < 1){
             return ResponseEntity.badRequest().build(); //400
         } else {
+            extractedCharge.getAccount();
             return ResponseEntity.accepted().body(chargeDAO.save(extractedCharge)); //202
         }
     }
-
 
     @DeleteMapping(value="/delete/{chargeId}")
     public ResponseEntity<String> deleteChargeById(@PathVariable int chargeId){

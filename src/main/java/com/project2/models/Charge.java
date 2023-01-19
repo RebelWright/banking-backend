@@ -19,7 +19,7 @@ public class Charge {
     private Account account;
 
     @Column(nullable = false)
-    private int chargeAmount;
+    private double chargeAmount;
     @Column(nullable = false)
     private String chargeName;
     @Column(nullable = false)
@@ -28,7 +28,7 @@ public class Charge {
     public Charge() {
     }
 
-    public Charge(int chargeId, Account account, int chargeAmount, String chargeName, String chargeType, String date) {
+    public Charge(int chargeId, Account account, double chargeAmount, String chargeName, String chargeType, String date) {
         this.chargeId = chargeId;
         this.account = account;
         this.chargeAmount = chargeAmount;
@@ -36,7 +36,7 @@ public class Charge {
         this.date = date;
     }
 
-    public Charge(Account account, int chargeAmount, String chargeName, String chargeType, String date) {
+    public Charge(Account account, double chargeAmount, String chargeName, String chargeType, String date) {
         this.account = account;
         this.chargeAmount = chargeAmount;
         this.chargeName = chargeName;
@@ -59,11 +59,11 @@ public class Charge {
         this.account = account;
     }
 
-    public int getChargeAmount() {
+    public double getChargeAmount() {
         return chargeAmount;
     }
 
-    public void setChargeAmount(int chargeAmount) {
+    public void setChargeAmount(double chargeAmount) {
         this.chargeAmount = chargeAmount;
     }
 
